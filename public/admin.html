@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Logo Briefs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1714;--ink-soft:#4a4540;--ink-muted:#8a857e;
+  --paper:#faf8f5;--paper-warm:#f3efe8;--paper-border:#e3ddd3;
+  --gold:#b8973a;--gold-soft:#d4b96a;--gold-bg:#fdf6e7;
+  --c-new:#2563eb;--c-new-bg:#eff6ff;
+  --c-wip:#d97706;--c-wip-bg:#fffbeb;
+  --c-done:#16a34a;--c-done-bg:#f0fdf4;
+  --c-arch:#6b7280;--c-arch-bg:#f9fafb;
+  --sw:240px;
+}
+html,body{height:100%;background:var(--paper);font-family:'DM Sans',sans-serif;color:var(--ink);overflow:hidden}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;height:100vh}
+.login-card{width:100%;max-width:400px;padding:52px 44px;border:.5px solid var(--paper-border);border-radius:12px;background:#fff;box-shadow:0 4px 40px rgba(26,23,20,.06)}
+.lc-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--gold);margin-bottom:28px}
+.lc-h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:32px;margin-bottom:8px}
+.lc-p{font-size:13px;color:var(--ink-muted);margin-bottom:28px}
+.lc-label{display:block;font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.lc-input{width:100%;background:var(--paper-warm);border:.5px solid var(--paper-border);border-radius:7px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color .2s}
+.lc-input:focus{border-color:var(--gold-soft)}
+.lc-err{font-size:12px;color:#c0392b;margin-top:8px;display:none}
+.lc-err.show{display:block}
+.lc-btn{margin-top:24px;width:100%;padding:14px;background:var(--ink);color:var(--paper);border:none;border-radius:40px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;cursor:pointer;transition:background .2s}
+.lc-btn:hover{background:#2d2820}
+
+/* APP */
+#app{display:none;height:100vh}
+#app.show{display:flex}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);flex-shrink:0;background:#fff;border-right:.5px solid var(--paper-border);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.sb-top{padding:28px 22px 20px;border-bottom:.5px solid var(--paper-border)}
+.sb-mark{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:4px}
+.sb-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:21px}
+.sb-link{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 14px 0;padding:11px;background:var(--ink);color:var(--paper);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:.04em;cursor:pointer;text-decoration:none;transition:background .15s}
+.sb-link:hover{background:#2d2820}
+.sb-nav{flex:1;overflow-y:auto;padding:10px 0}
+.sb-cat{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-muted);padding:16px 22px 6px}
+.sb-item{display:flex;align-items:center;justify-content:space-between;padding:10px 22px;font-size:13px;color:var(--ink-soft);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
+.sb-item:hover{background:var(--paper-warm);color:var(--ink)}
+.sb-item.active{background:var(--gold-bg);color:var(--ink);border-left-color:var(--gold)}
+.sb-n{font-size:10.5px;padding:2px 8px;border-radius:20px;background:var(--paper-warm);color:var(--ink-muted)}
+.sb-item.active .sb-n{background:#e8dfc8}
+.sb-foot{padding:18px 22px;border-top:.5px solid var(--paper-border)}
+.sb-out{width:100%;padding:9px;background:transparent;border:.5px solid var(--paper-border);border-radius:40px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--ink-muted);cursor:pointer;transition:all .15s}
+.sb-out:hover{border-color:var(--ink-muted);color:var(--ink)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 28px;border-bottom:.5px solid var(--paper-border);background:#fff;flex-shrink:0}
+.tb-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:22px}
+.srch{position:relative}
+.srch input{background:var(--paper-warm);border:.5px solid var(--paper-border);border-radius:7px;padding:9px 14px 9px 34px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--ink);outline:none;width:240px;transition:border-color .2s,width .2s}
+.srch input:focus{border-color:var(--gold-soft);width:280px}
+.srch-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--ink-muted);pointer-events:none}
+.content{flex:1;overflow-y:auto;padding:28px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.sc{background:#fff;border:.5px solid var(--paper-border);border-radius:10px;padding:20px}
+.sc-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px}
+.sc-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;line-height:1}
+.sc:nth-child(2) .sc-num{color:var(--c-new)}
+.sc:nth-child(3) .sc-num{color:var(--c-wip)}
+.sc:nth-child(4) .sc-num{color:var(--c-done)}
+.sc-sub{font-size:11px;color:var(--ink-muted);margin-top:5px}
+
+/* TABLE */
+.tbl-heading{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:12px}
+.tbl-card{background:#fff;border:.5px solid var(--paper-border);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{text-align:left;font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);padding:12px 18px;border-bottom:.5px solid var(--paper-border);background:var(--paper-warm)}
+tbody td{padding:15px 18px;font-size:13px;border-bottom:.5px solid #f0ece4;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{cursor:pointer;transition:background .1s}
+tbody tr:hover td{background:#fdf9f4}
+.cn{font-weight:500;margin-bottom:2px}
+.ce{font-size:11.5px;color:var(--ink-muted)}
+.id-c{font-size:12px;color:var(--ink-muted);width:44px}
+.dt-c{font-size:12px;color:var(--ink-muted);white-space:nowrap}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:500}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%}
+.badge.new{background:var(--c-new-bg);color:var(--c-new)}.badge.new::before{background:var(--c-new)}
+.badge.in-progress{background:var(--c-wip-bg);color:var(--c-wip)}.badge.in-progress::before{background:var(--c-wip)}
+.badge.completed{background:var(--c-done-bg);color:var(--c-done)}.badge.completed::before{background:var(--c-done)}
+.badge.archived{background:var(--c-arch-bg);color:var(--c-arch)}.badge.archived::before{background:var(--c-arch)}
+
+/* EMPTY / LOADING */
+.empty-state{text-align:center;padding:64px 24px;color:var(--ink-muted)}
+.empty-icon{font-size:26px;margin-bottom:12px;opacity:.4}
+.loading-td{text-align:center;padding:44px;color:var(--ink-muted);font-size:13px}
+.spin-sm{display:inline-block;width:13px;height:13px;border:2px solid var(--paper-border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PANEL */
+.overlay{position:fixed;inset:0;background:rgba(26,23,20,.28);z-index:200;display:none;backdrop-filter:blur(1px)}
+.overlay.show{display:block}
+.panel{position:fixed;top:0;right:-540px;width:540px;height:100vh;background:#fff;border-left:.5px solid var(--paper-border);display:flex;flex-direction:column;z-index:201;transition:right .3s cubic-bezier(.25,.46,.45,.94);box-shadow:-8px 0 40px rgba(0,0,0,.08)}
+.panel.open{right:0}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:.5px solid var(--paper-border);flex-shrink:0}
+.ph h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:22px}
+.ph-close{background:none;border:.5px solid var(--paper-border);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--ink-muted);transition:all .15s}
+.ph-close:hover{border-color:var(--ink-muted);color:var(--ink)}
+.pm{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 26px;border-bottom:.5px solid var(--paper-border);flex-shrink:0;flex-wrap:wrap}
+.pm-block small{font-size:11px;color:var(--ink-muted);display:block;margin-bottom:2px}
+.pm-block strong{font-size:13px}
+.pm-actions{display:flex;gap:7px;align-items:center}
+.status-sel{background:var(--paper-warm);border:.5px solid var(--paper-border);border-radius:7px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--ink);cursor:pointer;outline:none}
+.btn-copy{background:var(--paper-warm);border:.5px solid var(--paper-border);border-radius:7px;padding:8px 13px;font-size:12px;color:var(--ink-soft);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.btn-copy:hover{border-color:var(--gold-soft);color:var(--ink)}
+.btn-del{background:none;border:.5px solid #fca5a5;border-radius:7px;padding:8px 13px;font-size:12px;color:#ef4444;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-del:hover{background:#fef2f2}
+.pb{flex:1;overflow-y:auto;padding:26px}
+.brief-pre{font-family:'DM Mono',monospace;font-size:12.5px;line-height:1.95;color:var(--ink);white-space:pre-wrap;word-break:break-word;background:var(--paper-warm);border:.5px solid var(--paper-border);border-radius:8px;padding:22px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--paper);padding:11px 22px;border-radius:40px;font-size:13px;opacity:0;transition:all .3s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:1000px){.sidebar{width:200px}.stats{grid-template-columns:1fr 1fr}.panel{width:100%;right:-100%}}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <div class="lc-eyebrow">✦ Brief System</div>
+    <h1 class="lc-h1">Welcome back.</h1>
+    <p class="lc-p">Enter your admin password to access the dashboard.</p>
+    <label class="lc-label">Password</label>
+    <input class="lc-input" type="password" id="pw" placeholder="••••••••••••" onkeydown="if(event.key==='Enter')login()">
+    <div class="lc-err" id="lc-err">Incorrect password — please try again.</div>
+    <button class="lc-btn" onclick="login()">Enter dashboard →</button>
+  </div>
+</div>
+
+<div id="app">
+  <aside class="sidebar">
+    <div class="sb-top">
+      <div class="sb-mark">Logo Brief</div>
+      <div class="sb-title">Admin Panel</div>
+    </div>
+    <a class="sb-link" href="/" target="_blank">＋ &nbsp;Share client link</a>
+    <nav class="sb-nav">
+      <div class="sb-cat">Filter by status</div>
+      <div class="sb-item active" onclick="setFilter('all',this)">All briefs <span class="sb-n" id="nb-all">–</span></div>
+      <div class="sb-item" onclick="setFilter('new',this)">New <span class="sb-n" id="nb-new">–</span></div>
+      <div class="sb-item" onclick="setFilter('in-progress',this)">In progress <span class="sb-n" id="nb-wip">–</span></div>
+      <div class="sb-item" onclick="setFilter('completed',this)">Completed <span class="sb-n" id="nb-done">–</span></div>
+      <div class="sb-item" onclick="setFilter('archived',this)">Archived <span class="sb-n" id="nb-arch">–</span></div>
+    </nav>
+    <div class="sb-foot">
+      <button class="sb-out" onclick="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="tb-title" id="view-title">All Briefs</div>
+      <div class="srch">
+        <span class="srch-icon">⌕</span>
+        <input type="search" id="search-input" placeholder="Search by name or email…" oninput="debounceSearch()">
+      </div>
+    </div>
+    <div class="content">
+      <div class="stats">
+        <div class="sc"><div class="sc-label">Total received</div><div class="sc-num" id="st-total">–</div><div class="sc-sub">all briefs</div></div>
+        <div class="sc"><div class="sc-label">New</div><div class="sc-num" id="st-new">–</div><div class="sc-sub">awaiting review</div></div>
+        <div class="sc"><div class="sc-label">In Progress</div><div class="sc-num" id="st-wip">–</div><div class="sc-sub">active projects</div></div>
+        <div class="sc"><div class="sc-label">Completed</div><div class="sc-num" id="st-done">–</div><div class="sc-sub">delivered</div></div>
+      </div>
+      <div class="tbl-heading" id="tbl-heading">Recent Briefs</div>
+      <div class="tbl-card">
+        <table>
+          <thead><tr><th>#</th><th>Client</th><th>Status</th><th>Received</th></tr></thead>
+          <tbody id="briefs-body">
+            <tr><td class="loading-td" colspan="4"><span class="spin-sm"></span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+
+<div class="panel" id="panel">
+  <div class="ph">
+    <h2 id="panel-name">Brief</h2>
+    <button class="ph-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="pm">
+    <div class="pm-block">
+      <small>Client email</small>
+      <strong id="panel-email">–</strong>
+    </div>
+    <div class="pm-block" style="text-align:right">
+      <small>Received</small>
+      <strong id="panel-date">–</strong>
+    </div>
+    <div class="pm-actions">
+      <button class="btn-copy" onclick="copyBrief()">Copy brief</button>
+      <select class="status-sel" id="panel-status" onchange="updateStatus()">
+        <option value="new">New</option>
+        <option value="in-progress">In Progress</option>
+        <option value="completed">Completed</option>
+        <option value="archived">Archived</option>
+      </select>
+      <button class="btn-del" onclick="deleteBrief()">Delete</button>
+    </div>
+  </div>
+  <div class="pb">
+    <div class="brief-pre" id="panel-brief"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let KEY='', allBriefs=[], currentFilter='all', activeId=null, searchTimer=null;
+
+// AUTH
+async function login(){
+  const pw=document.getElementById('pw').value.trim();
+  const err=document.getElementById('lc-err');
+  if(!pw){err.textContent='Please enter your password.';err.classList.add('show');return}
+  const res=await fetch('/api/stats',{headers:{'x-admin-key':pw}});
+  if(res.status===401){err.textContent='Incorrect password — please try again.';err.classList.add('show');document.getElementById('pw').value='';return}
+  KEY=pw; sessionStorage.setItem('ak',pw); launchApp();
+}
+function logout(){KEY='';sessionStorage.removeItem('ak');document.getElementById('app').classList.remove('show');document.getElementById('login-screen').style.display='flex';document.getElementById('pw').value=''}
+window.addEventListener('load',()=>{const s=sessionStorage.getItem('ak');if(s){KEY=s;launchApp()}});
+
+// INIT
+async function launchApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('show');
+  await Promise.all([loadStats(),loadBriefs()]);
+}
+
+// API
+async function api(path,opts={}){
+  const res=await fetch(path,{...opts,headers:{'x-admin-key':KEY,'Content-Type':'application/json',...(opts.headers||{})}});
+  if(res.status===401){logout();throw new Error('Unauthorized')}
+  return res.json();
+}
+
+// DATA
+async function loadStats(){
+  const s=await api('/api/stats');
+  document.getElementById('st-total').textContent=s.total;
+  document.getElementById('st-new').textContent=s.new;
+  document.getElementById('st-wip').textContent=s.in_progress;
+  document.getElementById('st-done').textContent=s.completed;
+  document.getElementById('nb-all').textContent=s.total;
+  document.getElementById('nb-new').textContent=s.new;
+  document.getElementById('nb-wip').textContent=s.in_progress;
+  document.getElementById('nb-done').textContent=s.completed;
+  document.getElementById('nb-arch').textContent=s.archived;
+}
+
+async function loadBriefs(){
+  const q=document.getElementById('search-input').value.trim();
+  const p=new URLSearchParams();
+  if(currentFilter!=='all')p.set('status',currentFilter);
+  if(q)p.set('q',q);
+  allBriefs=await api('/api/briefs?'+p.toString());
+  renderTable();
+}
+
+function renderTable(){
+  const tb=document.getElementById('briefs-body');
+  if(!allBriefs.length){
+    tb.innerHTML=`<tr><td colspan="4"><div class="empty-state"><div class="empty-icon">◌</div><p>No briefs found.</p></div></td></tr>`;
+    return;
+  }
+  tb.innerHTML=allBriefs.map(b=>`
+    <tr onclick="openBrief(${b.id})">
+      <td class="id-c">${b.id}</td>
+      <td><div class="cn">${esc(b.client_name)}</div><div class="ce">${esc(b.client_email)}</div></td>
+      <td><span class="badge ${b.status}">${b.status}</span></td>
+      <td class="dt-c">${fmtDate(b.created_at)}</td>
+    </tr>`).join('');
+}
+
+function setFilter(f,el){
+  currentFilter=f;
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const t={all:'All Briefs',new:'New Briefs','in-progress':'In Progress',completed:'Completed',archived:'Archived'};
+  document.getElementById('view-title').textContent=t[f]||'Briefs';
+  document.getElementById('tbl-heading').textContent=t[f]||'Briefs';
+  loadBriefs();
+}
+
+function debounceSearch(){clearTimeout(searchTimer);searchTimer=setTimeout(loadBriefs,280)}
+
+// PANEL
+async function openBrief(id){
+  activeId=id;
+  const d=await api(`/api/briefs/${id}`);
+  document.getElementById('panel-name').textContent=d.client_name;
+  document.getElementById('panel-email').textContent=d.client_email;
+  document.getElementById('panel-date').textContent=fmtDate(d.created_at);
+  document.getElementById('panel-brief').textContent=d.brief_text;
+  document.getElementById('panel-status').value=d.status;
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closePanel(){document.getElementById('panel').classList.remove('open');document.getElementById('overlay').classList.remove('show');activeId=null}
+async function updateStatus(){
+  if(!activeId)return;
+  const status=document.getElementById('panel-status').value;
+  await api(`/api/briefs/${activeId}/status`,{method:'PATCH',body:JSON.stringify({status})});
+  const b=allBriefs.find(x=>x.id===activeId);if(b)b.status=status;
+  renderTable();loadStats();toast(`Status → ${status}`);
+}
+async function deleteBrief(){
+  if(!activeId)return;
+  if(!confirm('Delete this brief? This cannot be undone.'))return;
+  await api(`/api/briefs/${activeId}`,{method:'DELETE'});
+  allBriefs=allBriefs.filter(b=>b.id!==activeId);
+  closePanel();renderTable();loadStats();toast('Brief deleted.');
+}
+function copyBrief(){
+  navigator.clipboard.writeText(document.getElementById('panel-brief').textContent)
+    .then(()=>toast('Copied to clipboard ✓'));
+}
+
+// UTILS
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fmtDate(s){
+  const d=new Date(s.endsWith('Z')?s:s+'Z');
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+    +' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel()});
+</script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Design Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1714;--ink-soft:#4a4540;--ink-muted:#8a857e;
+  --paper:#faf8f5;--paper-warm:#f3efe8;--paper-border:#e3ddd3;
+  --gold:#b8973a;--gold-soft:#d4b96a;--gold-bg:#fdf6e7;
+  --error:#c0392b;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);font-family:'DM Sans',sans-serif;color:var(--ink);line-height:1.7;min-height:100vh}
+
+/* ── PROGRESS ── */
+.progress-bar-wrap{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:.5px solid var(--paper-border);padding:14px 0;display:none}
+.progress-inner{max-width:680px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:16px}
+.progress-steps{display:flex;gap:6px;flex:1}
+.progress-step{height:2px;flex:1;background:var(--paper-border);border-radius:2px;transition:background .4s}
+.progress-step.done{background:var(--gold)}
+.progress-step.active{background:var(--gold-soft)}
+.progress-label{font-size:11px;color:var(--ink-muted);letter-spacing:.06em;white-space:nowrap;min-width:60px;text-align:right}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:680px;margin:0 auto;padding:0 24px 80px}
+
+/* ── HERO ── */
+.hero{padding:52px 0 40px;border-bottom:.5px solid var(--paper-border)}
+.studio-mark{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-muted);display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.studio-mark::after{content:'';flex:1;height:.5px;background:var(--paper-border)}
+.hero-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:17px;color:var(--gold);margin-bottom:10px;letter-spacing:.04em}
+.hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:46px;line-height:1.12;color:var(--ink);margin-bottom:18px;letter-spacing:-.01em}
+.hero-desc{font-size:15px;color:var(--ink-soft);line-height:1.85;max-width:500px;margin-bottom:20px}
+.hero-time{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border:.5px solid var(--paper-border);border-radius:40px;font-size:12px;color:var(--ink-muted);letter-spacing:.04em;background:var(--paper-warm)}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--gold-soft);flex-shrink:0}
+
+/* ── SECTIONS ── */
+.section{padding:44px 0 40px;border-bottom:.5px solid var(--paper-border);display:none}
+.section.active{display:block}
+.section-header{display:flex;align-items:baseline;gap:16px;margin-bottom:6px}
+.section-num{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--gold);letter-spacing:.1em;white-space:nowrap}
+.section h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:28px;color:var(--ink);letter-spacing:-.01em}
+.section-intro{font-size:14px;color:var(--ink-muted);line-height:1.85;margin-bottom:32px;padding-left:46px;max-width:480px}
+
+/* ── FIELDS ── */
+.field{margin-bottom:28px}
+.field-label{display:block;font-size:13px;font-weight:500;color:var(--ink);letter-spacing:.02em;margin-bottom:5px;line-height:1.5}
+.required-star{color:var(--gold);margin-left:2px}
+.optional-tag{color:var(--ink-muted);font-weight:300;font-size:12px;margin-left:4px}
+.field-hint{font-size:12px;color:var(--ink-muted);margin-bottom:10px;line-height:1.6;font-style:italic}
+.field-input{width:100%;background:var(--paper-warm);border:.5px solid var(--paper-border);border-radius:7px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical;-webkit-appearance:none}
+.field-input:focus{border-color:var(--gold-soft);box-shadow:0 0 0 3px rgba(184,151,58,.08)}
+.field-input::placeholder{color:var(--ink-muted);font-size:13px}
+textarea.field-input{min-height:100px}
+input.field-input{resize:none}
+.field-input.invalid{border-color:var(--error)}
+.field-error{font-size:12px;color:var(--error);margin-top:6px;display:none}
+.field-error.show{display:block}
+
+/* ── RADIO (single select) ── */
+.radio-group{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.radio-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:.5px solid var(--paper-border);border-radius:8px;cursor:pointer;background:var(--paper-warm);transition:all .15s;user-select:none}
+.radio-item:hover{border-color:var(--gold-soft)}
+.radio-item.active{border-color:var(--gold);background:var(--gold-bg)}
+.radio-circle{width:18px;height:18px;border-radius:50%;border:.5px solid var(--ink-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.radio-item.active .radio-circle{border-color:var(--gold);background:var(--gold)}
+.radio-item.active .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+.radio-label{font-size:13.5px;color:var(--ink-soft)}
+.radio-item.active .radio-label{color:var(--ink);font-weight:500}
+
+/* ── CHECKBOX (multi select) ── */
+.checkbox-group{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.checkbox-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:.5px solid var(--paper-border);border-radius:8px;cursor:pointer;background:var(--paper-warm);transition:all .15s;user-select:none}
+.checkbox-item:hover{border-color:var(--gold-soft)}
+.checkbox-item.active{border-color:var(--gold);background:var(--gold-bg)}
+.checkbox-box{width:18px;height:18px;border-radius:4px;border:.5px solid var(--ink-muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:11px;color:transparent}
+.checkbox-item.active .checkbox-box{border-color:var(--gold);background:var(--gold);color:#fff}
+.checkbox-label{font-size:13.5px;color:var(--ink-soft)}
+.checkbox-item.active .checkbox-label{color:var(--ink);font-weight:500}
+
+/* ── NAV ── */
+.nav-row{display:flex;justify-content:space-between;align-items:center;padding-top:32px;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:40px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.06em;cursor:pointer;border:none;transition:all .2s}
+.btn-back{background:transparent;color:var(--ink-muted);border:.5px solid var(--paper-border);padding:13px 22px}
+.btn-back:hover{color:var(--ink);border-color:var(--ink-muted)}
+.btn-next,.btn-submit{background:var(--ink);color:var(--paper);margin-left:auto}
+.btn-next:hover,.btn-submit:hover{background:#2d2820}
+.btn-submit:disabled{background:var(--ink-muted);cursor:not-allowed}
+.spinner{display:none;width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.spinner.show{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── SUCCESS ── */
+#success-screen{display:none;padding:80px 0 40px;text-align:center}
+#success-screen.show{display:block}
+.success-icon{width:56px;height:56px;border-radius:50%;background:#e8f5ee;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:22px}
+#success-screen h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:36px;color:var(--ink);margin-bottom:14px}
+#success-screen p{font-size:15px;color:var(--ink-soft);line-height:1.8;max-width:420px;margin:0 auto}
+.success-line{width:40px;height:1px;background:var(--gold-soft);margin:28px auto}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1714;color:#faf8f5;padding:12px 22px;border-radius:40px;font-size:13px;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:520px){
+  .hero h1{font-size:34px}
+  .section h2{font-size:24px}
+  .radio-item,.checkbox-item{padding:10px 14px}
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap" id="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-steps" id="progress-steps"></div>
+    <div class="progress-label" id="progress-label"></div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ── HERO ── -->
+  <div class="hero" id="hero">
+    <div class="studio-mark">Logo Design Brief</div>
+    <div class="hero-eyebrow">Let's begin.</div>
+    <h1>Tell us about<br>your brand.</h1>
+    <p class="hero-desc">Please fill out this short form to help me understand your brand and create a logo that fits your vision perfectly.</p>
+    <div class="hero-time"><span class="dot"></span>&nbsp; Takes about 5–8 minutes</div>
+    <div class="nav-row" style="padding-top:28px">
+      <button class="btn btn-next" onclick="startBrief()">Begin your brief <span>→</span></button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       SECTION 1 OF 3 — BASIC INFO
+  ════════════════════════════════ -->
+  <div class="section" id="step-1">
+    <div class="section-header">
+      <span class="section-num">01 —</span>
+      <h2>Basic Info</h2>
+    </div>
+    <p class="section-intro">Tell me the essentials about your business.</p>
+
+    <!-- Email -->
+    <div class="field">
+      <label class="field-label">Email <span class="required-star">*</span></label>
+      <input class="field-input" type="email" id="f-email" placeholder="Your email">
+      <div class="field-error" id="err-email">Please enter a valid email address.</div>
+    </div>
+
+    <!-- Business name -->
+    <div class="field">
+      <label class="field-label">Business name <span class="required-star">*</span></label>
+      <input class="field-input" type="text" id="f-name" placeholder="Your answer">
+      <div class="field-error" id="err-name">This field is required.</div>
+    </div>
+
+    <!-- Tagline or slogan -->
+    <div class="field">
+      <label class="field-label">Tagline or slogan <span class="optional-tag">(optional)</span></label>
+      <input class="field-input" type="text" id="f-tagline" placeholder="Your answer">
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="btn btn-next" onclick="next(1)">Next <span>→</span></button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       SECTION 2 OF 3 — BRAND DETAILS
+  ════════════════════════════════ -->
+  <div class="section" id="step-2">
+    <div class="section-header">
+      <span class="section-num">02 —</span>
+      <h2>Brand Details</h2>
+    </div>
+    <p class="section-intro">Help me understand your brand and audience.</p>
+
+    <!-- What does your business do? -->
+    <div class="field">
+      <label class="field-label">What does your business do? What makes it unique? What are your core values or mission? <span class="required-star">*</span></label>
+      <textarea class="field-input" id="f-description" placeholder="Your answer"></textarea>
+      <div class="field-error" id="err-description">This field is required.</div>
+    </div>
+
+    <!-- Ideal customers -->
+    <div class="field">
+      <label class="field-label">Who are your ideal customers? <span class="optional-tag">(age, interests, etc.)</span></label>
+      <textarea class="field-input" id="f-audience" placeholder="Your answer"></textarea>
+    </div>
+
+    <!-- Brand personality -->
+    <div class="field">
+      <label class="field-label">Describe your brand personality. If it were a person, how would you describe it? <span class="required-star">*</span></label>
+      <div class="field-hint">e.g., friendly, bold, elegant, playful, professional</div>
+      <textarea class="field-input" id="f-personality" placeholder="Your answer"></textarea>
+      <div class="field-error" id="err-personality">This field is required.</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" onclick="back(2)">← Back</button>
+      <button class="btn btn-next" onclick="next(2)">Next <span>→</span></button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       SECTION 3 OF 3 — DESIGN PREFERENCES
+  ════════════════════════════════ -->
+  <div class="section" id="step-3">
+    <div class="section-header">
+      <span class="section-num">03 —</span>
+      <h2>Design Preferences</h2>
+    </div>
+    <p class="section-intro">Share your design style and requirements.</p>
+
+    <!-- Logo type — RADIO (single select) -->
+    <div class="field">
+      <label class="field-label">What type of logo do you prefer? <span class="required-star">*</span></label>
+      <div class="radio-group" id="rg-logotype">
+        <div class="radio-item" data-val="Wordmark (text-based)" onclick="selectRadio(this,'rg-logotype')">
+          <div class="radio-circle"></div>
+          <span class="radio-label">Wordmark (text-based)</span>
+        </div>
+        <div class="radio-item" data-val="Icon/symbol" onclick="selectRadio(this,'rg-logotype')">
+          <div class="radio-circle"></div>
+          <span class="radio-label">Icon/symbol</span>
+        </div>
+        <div class="radio-item" data-val="Combination (text + icon)" onclick="selectRadio(this,'rg-logotype')">
+          <div class="radio-circle"></div>
+          <span class="radio-label">Combination (text + icon)</span>
+        </div>
+        <div class="radio-item" data-val="Lettermark (initials)" onclick="selectRadio(this,'rg-logotype')">
+          <div class="radio-circle"></div>
+          <span class="radio-label">Lettermark (initials)</span>
+        </div>
+        <div class="radio-item" data-val="Not sure" onclick="selectRadio(this,'rg-logotype')">
+          <div class="radio-circle"></div>
+          <span class="radio-label">Not sure</span>
+        </div>
+      </div>
+      <div class="field-error" id="err-logotype">Please select an option.</div>
+    </div>
+
+    <!-- Colors — short answer -->
+    <div class="field">
+      <label class="field-label">Preferred colors, colors to avoid, or existing brand colors <span class="optional-tag">(hex codes if any)</span> <span class="required-star">*</span></label>
+      <div class="field-hint">You can also write "Not sure"</div>
+      <input class="field-input" type="text" id="f-colors" placeholder="Your answer">
+      <div class="field-error" id="err-colors">This field is required.</div>
+    </div>
+
+    <!-- Competitors — optional long answer -->
+    <div class="field">
+      <label class="field-label">List 2–3 competitors and what you like/dislike about their branding <span class="optional-tag">(optional)</span></label>
+      <textarea class="field-input" id="f-competitors" placeholder="Your answer"></textarea>
+    </div>
+
+    <!-- Symbols — optional long answer -->
+    <div class="field">
+      <label class="field-label">Any symbols, icons, or elements you want included <span class="optional-tag">(optional)</span></label>
+      <textarea class="field-input" id="f-symbols" placeholder="Your answer"></textarea>
+    </div>
+
+    <!-- File formats — CHECKBOXES (multi select) -->
+    <div class="field">
+      <label class="field-label">Which file formats do you need? <span class="required-star">*</span></label>
+      <div class="checkbox-group" id="cg-formats">
+        <div class="checkbox-item" data-val="PNG" onclick="toggleCheckbox(this,'cg-formats')">
+          <div class="checkbox-box">✓</div>
+          <span class="checkbox-label">PNG</span>
+        </div>
+        <div class="checkbox-item" data-val="JPG" onclick="toggleCheckbox(this,'cg-formats')">
+          <div class="checkbox-box">✓</div>
+          <span class="checkbox-label">JPG</span>
+        </div>
+        <div class="checkbox-item" data-val="SVG (vector)" onclick="toggleCheckbox(this,'cg-formats')">
+          <div class="checkbox-box">✓</div>
+          <span class="checkbox-label">SVG (vector)</span>
+        </div>
+        <div class="checkbox-item" data-val="PDF" onclick="toggleCheckbox(this,'cg-formats')">
+          <div class="checkbox-box">✓</div>
+          <span class="checkbox-label">PDF</span>
+        </div>
+        <div class="checkbox-item" data-val="Source file (AI/PSD)" onclick="toggleCheckbox(this,'cg-formats')">
+          <div class="checkbox-box">✓</div>
+          <span class="checkbox-label">Source file (AI/PSD)</span>
+        </div>
+        <div class="checkbox-item" data-val="All file formats" onclick="toggleCheckbox(this,'cg-formats',true)">
+          <div class="checkbox-box">✓</div>
+          <span class="checkbox-label">All file formats</span>
+        </div>
+      </div>
+      <div class="field-error" id="err-formats">Please select at least one format.</div>
+    </div>
+
+    <!-- Brief / additional notes -->
+    <div class="field">
+      <label class="field-label">Is there anything else you'd like me to know before starting the design? <span class="optional-tag">(BRIEF)</span></label>
+      <textarea class="field-input" id="f-brief" placeholder="Your answer"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" onclick="back(3)">← Back</button>
+      <button class="btn btn-submit" id="submit-btn" onclick="submitBrief()">
+        <span id="btn-label">Submit</span>
+        <div class="spinner" id="btn-spinner"></div>
+        <span id="btn-arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Brief submitted.</h2>
+    <div class="success-line"></div>
+    <p>Thank you — your brief has been received. I'll be in touch soon to discuss next steps.</p>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let currentStep = 0;
+const TOTAL     = 3;
+
+// radio selections (single)
+const radios = {};
+// checkbox selections (multi)
+const checks = {};
+
+// ── CONTROLS ───────────────────────────────────────────────────────────────
+function selectRadio(el, groupId) {
+  document.querySelectorAll(`#${groupId} .radio-item`).forEach(r => r.classList.remove('active'));
+  el.classList.add('active');
+  radios[groupId] = el.dataset.val;
+  // clear error
+  document.getElementById('err-logotype')?.classList.remove('show');
+}
+
+function toggleCheckbox(el, groupId, selectAll = false) {
+  if (selectAll) {
+    // "All file formats" — deselect others, only keep this
+    document.querySelectorAll(`#${groupId} .checkbox-item`).forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    checks[groupId] = ['All file formats'];
+  } else {
+    // deselect "All file formats" if picking individual
+    const allItem = document.querySelector(`#${groupId} .checkbox-item[data-val="All file formats"]`);
+    if (allItem) allItem.classList.remove('active');
+    el.classList.toggle('active');
+    checks[groupId] = [...document.querySelectorAll(`#${groupId} .checkbox-item.active`)].map(c => c.dataset.val);
+    if (checks[groupId].length === 0) delete checks[groupId];
+  }
+  document.getElementById('err-formats')?.classList.remove('show');
+}
+
+function getChecks(id) { return checks[id] || []; }
+function getRadio(id)  { return radios[id] || ''; }
+function val(id)       { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function startBrief() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'block';
+  showStep(1);
+}
+
+function showStep(n) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n)?.classList.add('active');
+  currentStep = n;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(from) { if (validate(from)) showStep(from + 1); }
+
+function back(from) {
+  if (from === 1) {
+    document.getElementById('hero').style.display = 'block';
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    currentStep = 0; updateProgress();
+  } else {
+    showStep(from - 1);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const sw = document.getElementById('progress-steps');
+  const lw = document.getElementById('progress-label');
+  sw.innerHTML = '';
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'progress-step' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+    sw.appendChild(d);
+  }
+  lw.textContent = currentStep > 0 ? `${currentStep} of ${TOTAL}` : '';
+}
+
+// ── VALIDATION ─────────────────────────────────────────────────────────────
+function setErr(inputId, errId, fail) {
+  document.getElementById(inputId)?.classList.toggle('invalid', fail);
+  document.getElementById(errId)?.classList.toggle('show', fail);
+}
+
+function validate(step) {
+  let ok = true;
+  if (step === 1) {
+    const email = val('f-email');
+    const efail = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setErr('f-email', 'err-email', efail); if (efail) ok = false;
+    const nfail = !val('f-name');
+    setErr('f-name', 'err-name', nfail); if (nfail) ok = false;
+  }
+  if (step === 2) {
+    const df = !val('f-description');
+    setErr('f-description', 'err-description', df); if (df) ok = false;
+    const pf = !val('f-personality');
+    setErr('f-personality', 'err-personality', pf); if (pf) ok = false;
+  }
+  if (step === 3) {
+    const lf = !getRadio('rg-logotype');
+    document.getElementById('err-logotype').classList.toggle('show', lf); if (lf) ok = false;
+    const cf = !val('f-colors');
+    setErr('f-colors', 'err-colors', cf); if (cf) ok = false;
+    const ff = !getChecks('cg-formats').length;
+    document.getElementById('err-formats').classList.toggle('show', ff); if (ff) ok = false;
+  }
+  return ok;
+}
+
+// ── BRIEF BUILDER ──────────────────────────────────────────────────────────
+function buildBrief() {
+  const name        = val('f-name');
+  const email       = val('f-email');
+  const tagline     = val('f-tagline');
+  const description = val('f-description');
+  const audience    = val('f-audience');
+  const personality = val('f-personality');
+  const logotype    = getRadio('rg-logotype');
+  const colors      = val('f-colors');
+  const competitors = val('f-competitors');
+  const symbols     = val('f-symbols');
+  const formats     = getChecks('cg-formats');
+  const briefExtra  = val('f-brief');
+
+  // ── Company description paragraph ──
+  let compDesc = description;
+  if (audience)    compDesc += ` Their ideal customers are: ${audience}.`;
+  if (personality) compDesc += ` Brand personality: ${personality}.`;
+
+  // ── Job description paragraph ──
+  let jobDesc = 'You must create a logo using the information given in this brief.';
+  if (logotype)    jobDesc += ` The client prefers a ${logotype}.`;
+  if (colors)      jobDesc += ` Color preferences: ${colors}.`;
+  if (symbols)     jobDesc += ` Elements to include: ${symbols}.`;
+  if (competitors) jobDesc += ` Competitor reference: ${competitors}.`;
+  jobDesc += ' Take into account the company\'s values and preferences, and make sure the logo works for all planned use cases.';
+
+  // ── Assemble brief ──
+  let brief = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LOGO DESIGN BRIEF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Company Name:
+${name}`;
+
+  if (tagline) brief += `\n\nTagline / Slogan:\n${tagline}`;
+
+  brief += `\n\nCompany Description:\n${compDesc}`;
+  brief += `\n\nJob Description:\n${jobDesc}`;
+  brief += `\n\nFile Formats Required:\n${formats.join(', ') || 'Not specified'}`;
+
+  if (briefExtra) brief += `\n\nAdditional Notes:\n${briefExtra}`;
+
+  brief += `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Client Email: ${email}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+  const raw = { name, email, tagline, description, audience, personality,
+    logotype, colors, competitors, symbols, formats, briefExtra };
+
+  return { brief, name, email, raw };
+}
+
+// ── SUBMIT ─────────────────────────────────────────────────────────────────
+async function submitBrief() {
+  if (!validate(3)) return;
+
+  const btn     = document.getElementById('submit-btn');
+  const label   = document.getElementById('btn-label');
+  const spinner = document.getElementById('btn-spinner');
+  const arrow   = document.getElementById('btn-arrow');
+
+  btn.disabled    = true;
+  label.textContent = 'Submitting…';
+  spinner.classList.add('show');
+  arrow.style.display = 'none';
+
+  const payload = buildBrief();
+
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Server error');
+
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    document.getElementById('success-screen').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    showToast('Something went wrong — please try again.');
+    label.textContent  = 'Submit';
+    spinner.classList.remove('show');
+    arrow.style.display = 'inline';
+    btn.disabled = false;
+  }
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
